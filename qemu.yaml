@@ -35,10 +35,6 @@ actions:
     description: Add sudo configuration
     source: overlays/sudo
 
-  - action: pack
-    file: {{ $imagename }}.gz
-    compression: gz
-
   - action: image-partition
     imagename: {{ $imagename }}.img
     imagesize: 1GB
