@@ -1,0 +1,57 @@
+{{- $architecture := or .architecture "amd64" -}}
+{{- $suite := or .suite "buster" -}}
+{{- $filesystem := or .filesystem "ext4" -}}
+{{ $imagename:= or .imagename (printf "debian-%s-%s-%s" $suite $architecture $filesystem) }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: debootstrap
+    suite: {{ $suite }}
+    components:
+      - main
+    mirror: http://deb.debian.org/debian
+    variant: minbase
+
+  - action: apt
+    recommends: false
+    packages:
+      - adduser
+      - sudo
+      - systemd-sysv
+      - util-linux
+      - initramfs-tools
+
+  - action: run
+    description: Set hostname
+    chroot: true
+    command: echo debian-{{ $suite }}-{{ $architecture }} > /etc/hostname
+
+  - action: run
+    chroot: true
+    script: scripts/setup-user.sh
+
+  - action: overlay
+    description: Add sudo configuration
+    source: overlays/sudo
+
+  - action: pack
+    file: {{ $imagename }}.gz
+    compression: gz
+
+  - action: image-partition
+    imagename: {{ $imagename }}.img
+    imagesize: 1GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: root
+    partitions:
+      - name: root
+        fs: {{ $filesystem }}
+        start: 2MiB
+        end: 100%
+        flags: [ boot ]
+
+  - action: filesystem-deploy
+    description: Deploying filesystem onto image
