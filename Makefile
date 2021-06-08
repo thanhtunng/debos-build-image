@@ -6,7 +6,7 @@ build_qemu_img:
 		--security-opt label=disable godebos/debos \
 		--print-recipe \
 		--fakemachine-backend=uml \
-		example.yaml \
+		qemu.yaml
 
 run_qemu_img:
 	qemu-system-x86_64 \
