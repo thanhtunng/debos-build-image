@@ -1,6 +1,3 @@
-[submodule "debos"]
-	path = debos
-	url = https://github.com/go-debos/debos.git
 [submodule "submodules/debos"]
 	path = submodules/debos
 	url = https://github.com/go-debos/debos.git
