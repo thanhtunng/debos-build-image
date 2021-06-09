@@ -21,6 +21,7 @@ actions:
       - systemd-sysv
       - util-linux
       - initramfs-tools
+      - linux-image-amd64
 
   - action: run
     description: Set hostname
