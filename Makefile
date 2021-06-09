@@ -1,6 +1,6 @@
 BACKEND?=uml
 
-build_qemu_img:
+build_qemu_img_amd64:
 	docker run --rm --interactive --tty --device /dev/kvm\
 		--user $(shell id -u) --workdir /recipes \
 		--mount "type=bind,source=$(shell pwd),destination=/recipes" \
@@ -10,7 +10,7 @@ build_qemu_img:
 		--fakemachine-backend=$(BACKEND) \
 		qemu.yaml
 
-run_qemu_img:
+run_qemu_img_amd64:
 	qemu-system-x86_64 \
 		-m 1G \
 		-device virtio-scsi-pci \
