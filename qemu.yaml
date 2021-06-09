@@ -22,6 +22,7 @@ actions:
       - util-linux
       - initramfs-tools
       - linux-image-amd64
+      - grub-pc
 
   - action: run
     description: Set hostname
@@ -35,6 +36,15 @@ actions:
   - action: overlay
     description: Add sudo configuration
     source: overlays/sudo
+
+  - action: run
+    chroot: true
+    command: sed -i 's#quiet#console=tty0 console=ttyS0,115200n8 rootwait ro quiet#g' /etc/default/grub
+
+  - action: run
+    chroot: true
+    description: don't hide boot messages in grub
+    command: sed -i 's/quiet//g' /etc/default/grub
 
   - action: image-partition
     imagename: {{ $imagename }}.img
@@ -52,3 +62,16 @@ actions:
 
   - action: filesystem-deploy
     description: Deploying filesystem onto image
+
+  - action: run
+    chroot: true
+    command: grub-install --target=i386-pc --recheck ${IMAGE}
+
+  - action: run
+    chroot: true
+    command: update-grub
+
+  - action: run
+    chroot: true
+    command: sed -i 's/vda/sda/g' /boot/grub/grub.cfg        
+

@@ -15,9 +15,6 @@ run_qemu_img:
 		-m 1G \
 		-device virtio-scsi-pci \
 		-device scsi-hd,drive=hd0 \
-		-kernel vmlinuz-4.19.0-16-amd64 \
-		-initrd initrd.img-4.19.0-16-amd64 \
-		-append "root=/dev/sda1 console=ttyS0,115200"
 		-blockdev driver=file,node-name=hd0,filename=debian-buster-amd64-ext4.img \
 		-device e1000,netdev=net0 \
 		-netdev user,hostfwd=tcp:127.0.0.1:5555-:22,id=net0,hostfwd=tcp:127.0.0.1:2159-:2159 \
