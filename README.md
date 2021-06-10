@@ -13,9 +13,9 @@ docker build -f docker/Dockerfile -t godebos/debos .
 ```
 make build_qemu_img
 ```
-- As default using uml backend, can change to kvm:
+- As default using kvm backend, can change to uml:
 ```
-make build_qemu_img BACKEND=kvm
+make build_qemu_img BACKEND=uml
 ```
 - Run image:
 ```

@@ -1,4 +1,4 @@
-BACKEND?=uml
+BACKEND?=kvm
 
 build_qemu_img_amd64:
 	docker run --rm --interactive --tty --device /dev/kvm\
